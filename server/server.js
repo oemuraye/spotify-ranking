@@ -3,18 +3,19 @@ import cors from "cors";
 import bodyParser from 'body-parser';
 import dotenv from 'dotenv';
 
+dotenv.config();
+
 import connectDB from './config/db.js';
 
 // import apiRoutes from './routes/api.js';
 // import authRoutes from './routes/auth.js';
 
 // import apiLimiter from './utils/rateLimit.js';
-// import fetchData from './services/spotifyService.js';
+import fetchData from './services/spotifyService.js';
 // import { saveData } from './services/trackService.js';
 
-dotenv.config();
-
 const app = express();
+
 
 // Connect to MongoDB
 connectDB();
@@ -34,7 +35,8 @@ app.get('/', (req, res) => {
 // Fetch and save data on startup
 const initializeData = async () => {
   const data = await fetchData();
-  await saveData(data);
+  // await saveData(data);
+  // console.log(data);
   console.log('Data fetched and saved');
 };
 
