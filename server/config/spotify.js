@@ -12,7 +12,6 @@ const CLIENT_ID = process.env.SPOTIFY_CLIENT_ID;
 const CLIENT_SECRET = process.env.SPOTIFY_CLIENT_SECRET;
 
 const getAccessToken = async () => {
-    console.log('Client ID:', SPOTIFY_BASE_URL);
     const tokenUrl = 'https://accounts.spotify.com/api/token';
     const authHeader = Buffer.from(`${CLIENT_ID}:${CLIENT_SECRET}`).toString('base64');
   
