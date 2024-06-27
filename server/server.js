@@ -8,11 +8,8 @@ dotenv.config();
 import connectDB from './config/db.js';
 
 import apiRoutes from './routes/api.js';
-// import authRoutes from './routes/auth.js';
 
-// import apiLimiter from './utils/rateLimit.js';
-import fetchData from './services/spotifyService.js';
-import { generateNewTop50, initializeData } from './services/trackService.js';
+import { initializeData } from './services/trackService.js';
 
 const app = express();
 
@@ -23,7 +20,6 @@ connectDB();
 // Middleware
 app.use(cors());
 app.use(bodyParser.json());
-// app.use('/api/', apiLimiter);
 
 // Routes
 app.get('/', async (req, res) => {
@@ -31,8 +27,8 @@ app.get('/', async (req, res) => {
 })
 
 app.use('/api', apiRoutes);
-// app.use('/auth', authRoutes);
 
+// Fetch and Save Spotify Playlists Rankings
 // initializeData();
 
 // 404 Error Handler
