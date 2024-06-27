@@ -7,6 +7,6 @@ const router = express.Router();
 
 router.get('/top-tracks/:country', apiKeyAuth, getTopTracks);
 router.get('/new-top-tracks', apiKeyAuth, getNewTopTracks);
-router.get('/new-top-tracks', generatingApiKey);
+router.get('/generate-api-key', generatingApiKey);
 
 export default router;
