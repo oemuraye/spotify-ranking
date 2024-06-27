@@ -9,21 +9,19 @@ const PLAYLIST_IDS = {
 };
 
 const getTopTracks = async (playlistId, accessToken) => {
-    try {
-      const response = await axios.get(`${SPOTIFY_BASE_URL}/playlists/${playlistId}/tracks`, {
-        params: {
-          limit: 50,
-        },
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      });
-      return response.data.items;
-    } catch (error) {
-      console.error(`Error fetching top tracks for playlist ID ${playlistId}:`, error.message);
-    }
-  };
+  try {
+    const response = await axios.get(`${SPOTIFY_BASE_URL}/playlists/${playlistId}`, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error(`Error fetching top tracks for playlist ID ${playlistId}:`, error.message);
+  }
+};
   
+
   const fetchData = async () => {
     const countries = ['NG', 'ZA', 'US', 'GB'];
     const results = {};
@@ -37,7 +35,6 @@ const getTopTracks = async (playlistId, accessToken) => {
         console.error(`No playlist ID found for country: ${country}`);
       }
     }
-  
     return results;
   };
   

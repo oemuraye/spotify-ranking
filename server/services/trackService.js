@@ -1,21 +1,23 @@
-import Track from '../models/track.js';
+import { CountryTrack, TopTrack } from '../models/track.js';
+import fetchData from './spotifyService.js';
 
 
 const saveData = async (data) => {
   try {
     for (const country in data) {
-      const tracks = data[country].map((song) => ({
-        song
-      }));
+      const countryData = data[country];
 
-      await Track.updateOne(
+      await CountryTrack.updateOne(
         { country },
-        { $set: { tracks } },
+        { $set: { data: countryData } },
         { upsert: true }
       );
     }
 
     console.log('All tracks saved successfully');
+
+    await generateNewTop50();
+    console.log('New top 50 generated successfully');
   } catch (error) {
     console.error('Error saving data:', error);
     throw error;
@@ -23,23 +25,61 @@ const saveData = async (data) => {
 };
 
 const generateNewTop50 = async () => {
-  const allTracks = await Track.find();
-  const trackMap = new Map();
-  // return allTracks
+  try {
+    const allTracks = await CountryTrack.find();
+    const trackMap = new Map();
 
-  allTracks.forEach((entry) => {
-    entry.tracks.forEach((track) => {
-      if (!trackMap.has(track.spotifyId)) {
-        trackMap.set(track.spotifyId, { ...track, count: 0 });
+    allTracks.forEach((countryTrack) => {
+      const { tracks } = countryTrack.data;
+
+      if (tracks && tracks.items) {
+        tracks.items.forEach(({ added_at, added_by, is_local, primary_color, track, video_thumbnail }) => {
+          // Ensure uniqueness based on track ID
+          if (!trackMap.has(track.id)) {
+            trackMap.set(track.id, {
+              added_at,
+              added_by,
+              is_local,
+              primary_color,
+              'track': {...track},
+              video_thumbnail,
+              count: 0
+            });
+          }
+          trackMap.get(track.id).count++;
+        });
       }
-      trackMap.get(track.spotifyId).count++;
     });
-  });
 
-  const uniqueTracks = Array.from(trackMap.values());
-  uniqueTracks.sort((a, b) => b.count - a.count);
+    const uniqueTracks = Array.from(trackMap.values());
 
-  return uniqueTracks.slice(0, 50);
+    // Sort tracks based on popularity and other criteria as needed
+    uniqueTracks.sort((a, b) => b.popularity - a.popularity || b.count - a.count);
+
+    const top50Tracks = uniqueTracks.slice(0, 50);
+
+    await TopTrack.updateOne(
+      { country: 'top50' },
+      { $set: { tracks: top50Tracks } },
+      { upsert: true }
+    );
+
+    return top50Tracks;
+  } catch (error) {
+    console.error('Error generating new top 50:', error);
+    throw error;
+  }
 };
 
-export { saveData, generateNewTop50 };
+const initializeData = async () => {
+  try {
+    const data = await fetchData();
+    await saveData(data);
+    console.log('Data fetched and saved');
+  } catch (error) {
+    console.error('Error initializing data:', error);
+    throw error;
+  }
+};
+
+export { saveData, generateNewTop50, initializeData };

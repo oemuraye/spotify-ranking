@@ -7,12 +7,12 @@ dotenv.config();
 
 import connectDB from './config/db.js';
 
-// import apiRoutes from './routes/api.js';
+import apiRoutes from './routes/api.js';
 // import authRoutes from './routes/auth.js';
 
 // import apiLimiter from './utils/rateLimit.js';
 import fetchData from './services/spotifyService.js';
-import { generateNewTop50, saveData } from './services/trackService.js';
+import { generateNewTop50, initializeData } from './services/trackService.js';
 
 const app = express();
 
@@ -27,28 +27,24 @@ app.use(bodyParser.json());
 
 // Routes
 app.get('/', async (req, res) => {
-  const data = await fetchData();
-  res.json(data)
-  // res.send('Welcome to Social App Api')
+  res.send('Welcome to Social App Api')
 })
-app.get('/all', async (req, res) => {
-  const data = await generateNewTop50();
-  res.json(data)
-  // res.send('Welcome to Social App Api')
-})
-// app.use('/api', apiRoutes);
+
+app.use('/api', apiRoutes);
 // app.use('/auth', authRoutes);
 
-// Fetch and save data on startup
-const initializeData = async () => {
-  const data = await fetchData();
-  await saveData(data);
-  // console.log(data);
-  console.log('Data fetched and saved');
-};
-
 // initializeData();
-// generateNewTop50()
+
+// 404 Error Handler
+app.use((req, res, next) => {
+  res.status(404).json({ message: 'Resource not found' });
+});
+
+// General Error Handler
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).json({ message: 'Internal Server Error' });
+});
 
 const PORT = process.env.PORT || 4000;
 app.listen(PORT, () => {
