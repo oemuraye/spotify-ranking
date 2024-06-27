@@ -1,10 +1,12 @@
 import express from 'express';
 import { getTopTracks, getNewTopTracks } from '../controllers/trackController.js';
-// import authenticateToken from '../middleware/auth.js';
+import { generatingApiKey } from '../controllers/apiKeyControllers.js';
+import { apiKeyAuth } from '../middleware/apiKeyAuth.js';
 
 const router = express.Router();
 
-router.get('/top-tracks/:country', getTopTracks);
-router.get('/new-top-tracks', getNewTopTracks);
+router.get('/top-tracks/:country', apiKeyAuth, getTopTracks);
+router.get('/new-top-tracks', apiKeyAuth, getNewTopTracks);
+router.get('/new-top-tracks', generatingApiKey);
 
 export default router;
