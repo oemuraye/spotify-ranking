@@ -4,7 +4,7 @@ export const apiKeyAuth = async (req, res, next) => {
   const apiKey = req.headers['accessKey'];
 
   if (!apiKey) {
-    return res.status(403).json({ message: 'API key is missing' });
+    return res.status(401).json({ message: 'API key is missing' });
   }
 
   const validApiKey = await ApiKey.findOne({ key: apiKey });
