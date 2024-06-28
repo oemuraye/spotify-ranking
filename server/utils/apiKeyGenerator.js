@@ -6,7 +6,6 @@ const generateApiKey = () => {
   return crypto.randomBytes(15).toString('hex');
 };
 
-// Function to generate and save an API key
 const createAndSaveApiKey = async () => {
     try {
       const key = generateApiKey();

@@ -16,15 +16,15 @@ const saveData = async (data) => {
 
     console.log('All tracks saved successfully');
 
-    await generateNewTop50();
-    console.log('New top 50 generated successfully');
+    await generateNewTopRanking();
+    console.log('New top ranking generated successfully');
   } catch (error) {
     console.error('Error saving data:', error);
     throw error;
   }
 };
 
-const generateNewTop50 = async () => {
+const generateNewTopRanking = async () => {
   try {
     const allTracks = await CountryTrack.find();
     const trackMap = new Map();
@@ -53,10 +53,12 @@ const generateNewTop50 = async () => {
 
     const uniqueTracks = Array.from(trackMap.values());
 
-    // Sort tracks based on popularity and other criteria as needed
-    uniqueTracks.sort((a, b) => b.popularity - a.popularity || b.count - a.count);
-
+    // Sort tracks based on popularity and count to get the top 50
+    uniqueTracks.sort((a, b) => b.track.popularity - a.track.popularity || b.count - a.count);
     const top50Tracks = uniqueTracks.slice(0, 50);
+
+    // Sort all tracks alphabetically by track name
+    const allTracksSorted = uniqueTracks.sort((a, b) => a.track.name.localeCompare(b.track.name));
 
     await TopTrack.updateOne(
       { country: 'top50' },
@@ -64,9 +66,15 @@ const generateNewTop50 = async () => {
       { upsert: true }
     );
 
-    return top50Tracks;
+    await TopTrack.updateOne(
+      { country: 'allTracks' },
+      { $set: { tracks: allTracksSorted } },
+      { upsert: true }
+    );
+
+    return { top50Tracks, allTracksSorted };
   } catch (error) {
-    console.error('Error generating new top 50:', error);
+    console.error('Error generating new top ranking:', error);
     throw error;
   }
 };
@@ -82,4 +90,4 @@ const initializeData = async () => {
   }
 };
 
-export { saveData, generateNewTop50, initializeData };
+export { saveData, generateNewTopRanking, initializeData };

@@ -23,13 +23,13 @@ app.use(bodyParser.json());
 
 // Routes
 app.get('/', async (req, res) => {
-  res.send('Welcome to Social App Api')
+  res.send('Welcome to Music Ranking Api');
 })
 
 app.use('/api', apiRoutes);
 
 // Fetch and Save Spotify Playlists Rankings
-// initializeData();
+initializeData();
 
 // 404 Error Handler
 app.use((req, res, next) => {

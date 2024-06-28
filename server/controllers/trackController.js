@@ -1,5 +1,5 @@
 import { CountryTrack, TopTrack } from '../models/track.js';
-import { generateNewTop50, initializeData } from '../services/trackService.js';
+import { generateNewTopRanking, initializeData } from '../services/trackService.js';
 
 // Function to get top tracks for a specific country
 const getTopTracks = async (req, res) => {
@@ -36,4 +36,20 @@ const getNewTopTracks = async (req, res) => {
   }
 };
 
-export { getTopTracks, getNewTopTracks };
+// Function to get the general list of all tracks sorted alphabetically
+const getAllTracks = async (req, res) => {
+  try {
+    const allTracksData = await TopTrack.findOne({ country: 'allTracks' });
+
+    if (!allTracksData) {
+      return res.status(404).send('All tracks not found');
+    }
+
+    res.status(200).json({ data: allTracksData.tracks });
+  } catch (error) {
+    console.error('Error fetching all tracks:', error);
+    res.status(500).send('Server error');
+  }
+};
+
+export { getTopTracks, getNewTopTracks, getAllTracks };

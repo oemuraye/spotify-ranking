@@ -1,3 +1,5 @@
+import { createAndSaveApiKey } from "../utils/apiKeyGenerator.js";
+
 export const generatingApiKey = async (req, res) => {
     try {
         const apiKey = await createAndSaveApiKey();
