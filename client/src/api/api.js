@@ -3,11 +3,17 @@ import axios from 'axios';
 const API_KEY = process.env.REACT_APP_CLIENT_API_KEY;
 
 const API = axios.create({
-    baseURL: 'http://localhost:4000/api',
+    baseURL: 'https://spotify-ranking-q7hgadoa5-oemurayes-projects.vercel.app/',
     headers: {
       'x-api-key': API_KEY,
     }
 });
+// const API = axios.create({
+//     baseURL: 'http://localhost:4000/api',
+//     headers: {
+//       'x-api-key': API_KEY,
+//     }
+// });
 
 API.interceptors.request.use((request) => {
         request.headers['x-api-key'] = API_KEY;
