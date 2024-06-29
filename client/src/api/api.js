@@ -8,6 +8,7 @@ const API = axios.create({
       'x-api-key': API_KEY,
     }
 });
+
 // const API = axios.create({
 //     baseURL: 'http://localhost:4000/api',
 //     headers: {
