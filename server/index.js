@@ -34,7 +34,7 @@ app.get('/', async (req, res) => {
 app.use('/api', apiRoutes);
 
 // Fetch and Save Spotify Playlists Rankings
-// initializeData();
+initializeData();
 
 // 404 Error Handler
 app.use((req, res, next) => {
