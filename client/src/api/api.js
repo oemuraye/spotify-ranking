@@ -1,9 +1,6 @@
 import axios from 'axios';
-import dotenv from 'dotenv';
 
-dotenv.config();
-
-const API_KEY = process.env.CLIENT_API_KEY;
+const API_KEY = process.env.REACT_APP_CLIENT_API_KEY;
 
 const API = axios.create({
     baseURL: 'http://localhost:4000/api',
@@ -13,7 +10,6 @@ const API = axios.create({
 });
 
 API.interceptors.request.use((request) => {
-        console.log('Starting Request', request);
         request.headers['x-api-key'] = API_KEY;
         return request;
     },
@@ -24,7 +20,6 @@ API.interceptors.request.use((request) => {
 );
   
 API.interceptors.response.use((response) => {
-        console.log('Response:', response);
         return response;
     },
     (error) => {

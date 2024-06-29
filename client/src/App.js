@@ -5,11 +5,14 @@ import './index.css';
 
 function App() {
 
+
   return (
-    <section className="container-fluid">
-      <Header />
-      <Main />
-    </section>
+    <>
+      <section className="container-fluid">
+        <Header />
+        <Main />
+      </section>
+    </>
   );
 }
 

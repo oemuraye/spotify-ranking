@@ -1,7 +1,7 @@
 import ApiKey from '../models/apiKey.js';
 
 export const apiKeyAuth = async (req, res, next) => {
-  const apiKey = req.headers['accessKey'];
+  const apiKey = req.headers['x-api-key'];
 
   if (!apiKey) {
     return res.status(401).json({ message: 'API key is missing' });

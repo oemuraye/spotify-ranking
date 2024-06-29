@@ -1,6 +1,33 @@
+.tabs {
+  cursor: pointer;
+  color: #efe9e9;
+  background-color: #000000f0;
+  padding: 10px;
+  border-radius: 5px;
+}
+.tabs .active {
+  color: #fff;
+  background-color: #504b4b;
+  padding: 4px 8px;
+  border-radius: 50px;
+}
 .tab-content {
-    display: none;
-  }
-  .tab-content.active {
-    display: block;
-  }
+  display: none;
+}
+.tab-content.active {
+  display: block;
+}
+.tab-content ul {
+  list-style: none;
+}
+.tab-content ul a {
+  text-decoration: none;
+  color: #FFF;
+}
+.tab-content ul h6 {
+  font-size: 14px;
+}
+.tab-content ul p {
+  font-size: 12px;
+  color: #a7a7a7;
+}

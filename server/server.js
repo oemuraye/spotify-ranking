@@ -18,7 +18,12 @@ const app = express();
 connectDB();
 
 // Middleware
-app.use(cors());
+app.use(cors({
+  origin: '*',
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  credentials: true,
+  allowedHeaders: 'Content-Type,Authorization,x-api-key',
+}));
 app.use(bodyParser.json());
 
 // Routes
@@ -29,7 +34,7 @@ app.get('/', async (req, res) => {
 app.use('/api', apiRoutes);
 
 // Fetch and Save Spotify Playlists Rankings
-initializeData();
+// initializeData();
 
 // 404 Error Handler
 app.use((req, res, next) => {
