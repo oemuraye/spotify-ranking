@@ -3,7 +3,7 @@ import axios from 'axios';
 const API_KEY = process.env.REACT_APP_CLIENT_API_KEY;
 
 const API = axios.create({
-    baseURL: 'https://spotify-ranking-orcin.vercel.app',
+    baseURL: 'https://spotify-ranking-orcin.vercel.app/api',
     headers: {
       'x-api-key': API_KEY,
     }
