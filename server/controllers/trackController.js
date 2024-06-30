@@ -4,7 +4,7 @@ import { initializeData } from '../services/trackService.js';
 // Function to get top tracks for a specific country
 const getTopTracks = async (req, res) => {
   try {
-    initializeData();
+    // initializeData();
     const country = req.params.country.toUpperCase();
     const countryData = await CountryTrack.findOne({ country });
 
@@ -22,7 +22,7 @@ const getTopTracks = async (req, res) => {
 // Function to get the newly generated top 50 tracks
 const getNewTopTracks = async (req, res) => {
   try {
-    initializeData();
+    // initializeData();
     const top50TracksData = await TopTrack.findOne({ country: 'top50' });
 
     if (!top50TracksData) {

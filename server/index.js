@@ -34,7 +34,13 @@ app.get('/', async (req, res) => {
 app.use('/api', apiRoutes);
 
 // Fetch and Save Spotify Playlists Rankings
-initializeData();
+const initializingFetchingTracks = () => {
+  setInterval(() => {
+    initializeData();
+  }, 3600000); // 3600000 milliseconds = 1 hour
+};
+
+initializingFetchingTracks();
 
 // 404 Error Handler
 app.use((req, res, next) => {
